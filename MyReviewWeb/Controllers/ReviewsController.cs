@@ -38,7 +38,7 @@ namespace MyReviewWeb.Controllers
         public async Task<IActionResult> SearchResults(string SearchReview)
         {
             return _context.Reviews != null ?
-                         View("Index", await _context.Reviews.Where(j => j.Link.Contains(SearchReview)).ToListAsync()) :
+                         View("Index", await _context.Reviews.Where(j => j.Link.Contains(SearchReview) || j.Title.Contains(SearchReview) || j.Text.Contains(SearchReview)).ToListAsync()) :
                          Problem("Entity set 'ApplicationDbContext.Review'  is null.");
 
         }
