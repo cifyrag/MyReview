@@ -1,18 +1,11 @@
-﻿@model MyReviewWeb.Models.Review
-
-@{
-    ViewData["Title"] = "Create";
-}
-
-<h1>Create</h1>
-
-<h4>Review</h4>
+﻿
+<h4>Search for reviews about the movie or the book </h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+        <form asp-action="SearchResults">
+            @* <div asp-validation-summary="ModelOnly" class="text-danger"></div> *@
+            @* <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
                 <input asp-for="Title" class="form-control" />
                 <span asp-validation-for="Title" class="text-danger"></span>
@@ -21,11 +14,10 @@
                 <label asp-for="Text" class="control-label"></label>
                 <input asp-for="Text" class="form-control" />
                 <span asp-validation-for="Text" class="text-danger"></span>
-            </div>
+            </div> *@
             <div class="form-group">
-                <label asp-for="Link" class="control-label"></label>
-                <input asp-for="Link" class="form-control" />
-                <span asp-validation-for="Link" class="text-danger"></span>
+                <label for="SearchReview" class="control-label">Name of movie or book</label>
+                <input name="SearchReview" class="form-control" />
             </div>
             @* <div class="form-group">
                 <label asp-for="CreateDateTime" class="control-label"></label>
@@ -33,7 +25,7 @@
                 <span asp-validation-for="CreateDateTime" class="text-danger"></span>
             </div> *@
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Search" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -43,6 +35,6 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
-@section Scripts {
+@* @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+} *@
