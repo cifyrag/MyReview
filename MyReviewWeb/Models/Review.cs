@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
 namespace MyReviewWeb.Models
 {
@@ -16,6 +17,7 @@ namespace MyReviewWeb.Models
         [Required]
         public string Link { get; set; }
 
+        [DisplayName("Time")]
         public DateTime CreateDateTime { get; set; } = DateTime.Now;
 
 
