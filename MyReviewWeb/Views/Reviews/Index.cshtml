@@ -1,13 +1,18 @@
 ﻿@model IEnumerable<MyReviewWeb.Models.Review>
+@using MyReviewWeb.Models;
 
 @{
     ViewData["Title"] = "Index";
 }
+<p>  </p>
+@if(TempData["success"]!= null)
+{
+    <h2 class="text-warning ">@TempData["success"]</h2>
+}
 
 <h1>Index</h1>
-
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="btn btn-warning" asp-action="Create">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -15,9 +20,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Title)
             </th>
-            @* <th>
-                @Html.DisplayNameFor(model => model.Text)
-            </th> *@
+            <th>
+                @Html.DisplayNameFor(model => model.User)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Link)
             </th>
@@ -33,9 +38,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
-           @*  <td>
-                @Html.DisplayFor(modelItem => item.Text)
-            </td> *@
+            <td>
+                @Html.DisplayFor(modelItem => item.User)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Link)
             </td>
@@ -43,11 +48,16 @@
                 @Html.DisplayFor(modelItem => item.CreateDateTime)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> 
+                    @if(item.User == User.Identity.Name)
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+
+                    }
             </td>
         </tr>
 }
     </tbody>
 </table>
+

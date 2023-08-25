@@ -20,6 +20,7 @@ namespace MyReviewWeb.Models
         [DisplayName("Time")]
         public DateTime CreateDateTime { get; set; } = DateTime.Now;
 
+        public string User { get; set; } = "";
 
     }
 }

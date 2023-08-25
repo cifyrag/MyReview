@@ -74,12 +74,14 @@ namespace MyReviewWeb.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Text,Link,CreateDateTime")] Review review)
+        public async Task<IActionResult> Create(Review review)
         {
             if (ModelState.IsValid)
             {
+                review.User = User.Identity.Name;
                 _context.Add(review);
                 await _context.SaveChangesAsync();
+                TempData["success"] = "Review created successfully";
                 return RedirectToAction(nameof(Index));
             }
             return View(review);
@@ -89,12 +91,13 @@ namespace MyReviewWeb.Controllers
         // GET: Reviews/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Reviews == null)
+            if (id == null || _context.Reviews == null )
             {
                 return NotFound();
             }
 
             var review = await _context.Reviews.FindAsync(id);
+            
             if (review == null)
             {
                 return NotFound();
@@ -114,13 +117,16 @@ namespace MyReviewWeb.Controllers
             {
                 return NotFound();
             }
+            
 
             if (ModelState.IsValid)
             {
                 try
                 {
+                    review.User = User.Identity.Name;
                     _context.Update(review);
                     await _context.SaveChangesAsync();
+                    TempData["success"] = "Review updated successfully";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -143,20 +149,15 @@ namespace MyReviewWeb.Controllers
         // GET: Reviews/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Reviews == null)
-            {
-                return NotFound();
-            }
-
-            var review = await _context.Reviews
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var review = await _context.Reviews.FirstOrDefaultAsync(m => m.Id == id);
             if (review == null)
             {
                 return NotFound();
             }
-
             return View(review);
+
         }
+
 
         // POST: Reviews/Delete/5
         [Authorize]
@@ -164,17 +165,21 @@ namespace MyReviewWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            
             if (_context.Reviews == null)
             {
                 return Problem("Entity set 'ApplicationDbContext.Review'  is null.");
             }
+
             var review = await _context.Reviews.FindAsync(id);
-            if (review != null)
+            
+            if (review != null && ModelState.IsValid)
             {
                 _context.Reviews.Remove(review);
             }
             
             await _context.SaveChangesAsync();
+            TempData["success"] = "Review deleted successfully";
             return RedirectToAction(nameof(Index));
         }
 
@@ -182,5 +187,7 @@ namespace MyReviewWeb.Controllers
         {
           return (_context.Reviews?.Any(e => e.Id == id)).GetValueOrDefault();
         }
+
+        
     }
 }
