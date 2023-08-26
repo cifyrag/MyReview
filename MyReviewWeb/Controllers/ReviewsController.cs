@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -38,7 +39,8 @@ namespace MyReviewWeb.Controllers
         public async Task<IActionResult> SearchResults(string SearchReview)
         {
             return _context.Reviews != null ?
-                         View("Index", await _context.Reviews.Where(j => j.Link.Contains(SearchReview) || j.Title.Contains(SearchReview) || j.Text.Contains(SearchReview)).ToListAsync()) :
+                         View("Index", await _context.Reviews.Where(j => j.Link.Contains(SearchReview) 
+                         || j.Title.Contains(SearchReview) || j.Text.Contains(SearchReview)).ToListAsync()) :
                          Problem("Entity set 'ApplicationDbContext.Review'  is null.");
 
         }
@@ -111,7 +113,7 @@ namespace MyReviewWeb.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Text,Link,CreateDateTime")] Review review)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Text,Link")] Review review)
         {
             if (id != review.Id)
             {
@@ -188,6 +190,57 @@ namespace MyReviewWeb.Controllers
           return (_context.Reviews?.Any(e => e.Id == id)).GetValueOrDefault();
         }
 
-        
+
+
+        // POST: Reviews/Index/Like
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Like(int id)
+        {
+            if ( _context.Reviews == null)
+            {
+                return NotFound();
+            }
+
+            Review review = await _context.Reviews.FirstOrDefaultAsync(m => m.Id == id);
+            
+            Like like = new Like();
+            like.IdReview = id;
+            like.User = User.Identity.Name;
+            
+
+            if (review == null )
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid && !Liked(id))
+            {
+                review.LikesCount += 1;
+
+                _context.Update(review);
+                _context.Add(like);
+                await _context.SaveChangesAsync();
+
+               
+            }
+            
+            return RedirectToAction(nameof(Index));
+        }
+
+        //GET 
+        private bool Liked(int id)
+        {
+            List<Like>? likes = _context.Likes.Where(j => j.IdReview == id).ToList();
+            List<string> usersLiked = likes.Select(j => j.User).ToList();
+            
+            return usersLiked.Contains(User.Identity.Name);
+
+            
+        }
+
     }
+
 }
+

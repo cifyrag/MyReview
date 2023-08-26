@@ -10,5 +10,6 @@ namespace MyReviewWeb.Data
         {
         }
         public DbSet<MyReviewWeb.Models.Review>? Reviews { get; set; }
+        public DbSet<MyReviewWeb.Models.Like> Likes { get; set; }
     }
 }

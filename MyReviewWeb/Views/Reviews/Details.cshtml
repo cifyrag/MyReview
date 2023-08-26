@@ -34,16 +34,27 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Link)
         </dd>
+        
+        
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.CreateDateTime)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.CreateDateTime)
+
+
         </dd>
+        <dt class="col-sm-2">
+            <form asp-action="Like" asp-route-id="@Model.Id">
+                <i class="bi bi-heart"></i>
+                <input type="submit" value="Like" class="text-danger" />
+            </form>
+            @Html.DisplayFor(model => model.LikesCount)
+        </dt>
     </dl>
 </div>
 <div>
-    @if(Model.User == User.Identity.Name)
+    @if(Model.User == User.Identity.Name)   
     {
         <a asp-action="Edit" class="btn btn-warning" asp-route-id="@Model?.Id">Edit</a>
         <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>

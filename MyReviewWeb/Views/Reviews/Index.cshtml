@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<MyReviewWeb.Models.Review>
 @using MyReviewWeb.Models;
 
+
 @{
     ViewData["Title"] = "Index";
 }
@@ -20,6 +21,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Title)
             </th>
+           
+            <th>  </th>
+            <th>  </th>
             <th>
                 @Html.DisplayNameFor(model => model.User)
             </th>
@@ -34,13 +38,27 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
+            
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
             <td>
+
+                    <form asp-action="Like" asp-route-id="@item.Id">
+                        <i class="bi bi-heart"></i>
+                        <input type="submit" value="Like" class="text-danger" />
+                    </form>
+                
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.LikesCount)
+
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.User)
             </td>
+               
             <td>
                 @Html.DisplayFor(modelItem => item.Link)
             </td>
@@ -49,12 +67,13 @@
             </td>
             <td>
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> 
-                    @if(item.User == User.Identity.Name)
+                    @if (item.User == User.Identity.Name)
                     {
                         <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
                         <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
 
                     }
+
             </td>
         </tr>
 }

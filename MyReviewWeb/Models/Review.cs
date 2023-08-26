@@ -21,6 +21,8 @@ namespace MyReviewWeb.Models
         public DateTime CreateDateTime { get; set; } = DateTime.Now;
 
         public string User { get; set; } = "";
+        [DisplayName("Likes")]
+        public int LikesCount { get; set; }
 
     }
 }

@@ -18,7 +18,8 @@ namespace MyReviewWeb.Data.Migrations
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Link = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreateDateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    CreateDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    //LikesCount = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
