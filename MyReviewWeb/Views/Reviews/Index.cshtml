@@ -2,6 +2,7 @@
 @using MyReviewWeb.Models;
 
 
+
 @{
     ViewData["Title"] = "Index";
 }
@@ -23,7 +24,7 @@
             </th>
            
             <th>  </th>
-            <th>  </th>
+            <th> Likes </th>
             <th>
                 @Html.DisplayNameFor(model => model.User)
             </th>
@@ -38,18 +39,20 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
-            
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
             <td>
-
                     <form asp-action="Like" asp-route-id="@item.Id">
-                        <i class="bi bi-heart"></i>
-                        <input type="submit" value="Like" class="text-danger" />
+                        <button type="submit" class="btn btn-outline-danger btn-sm bt"><i class="bi bi-heart"> </i></button>
+
                     </form>
-                
+                    @* <p>_________________________________________</p>
+                    <form asp-action="UnLike" asp-route-id="@item.Id">
+                        <button type="submit" class="btn btn-outline-danger btn-sm"><i class="bi bi-heart-fill"></i></button>
+                    </form> *@
+                   
             </td>
             <td>
                     @Html.DisplayFor(modelItem => item.LikesCount)
@@ -71,12 +74,11 @@
                     {
                         <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
                         <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-
                     }
-
             </td>
         </tr>
 }
     </tbody>
 </table>
+
 

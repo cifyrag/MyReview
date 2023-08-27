@@ -223,11 +223,64 @@ namespace MyReviewWeb.Controllers
                 _context.Add(like);
                 await _context.SaveChangesAsync();
 
-               
+
+            }
+            else
+            {
+                List<Like>? likes = _context.Likes.Where(j => j.IdReview == id).ToList();
+                Like likeD = likes.FirstOrDefault(m => m.User == User.Identity.Name);
+
+                if (review == null)
+                {
+                    return NotFound();
+                }
+                if (ModelState.IsValid && Liked(id) && likeD != null)
+                {
+                    review.LikesCount -= 1;
+
+                    _context.Update(review);
+                    _context.Remove(likeD);
+                    await _context.SaveChangesAsync();
+                }
             }
             
             return RedirectToAction(nameof(Index));
         }
+
+
+        //// POST: Reviews/Index/Like
+        //[Authorize]
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> UnLike(int id)
+        //{
+        //    if (_context.Reviews == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    Review review = await _context.Reviews.FirstOrDefaultAsync(m => m.Id == id);
+
+        //    List<Like>? likes = _context.Likes.Where(j => j.IdReview == id).ToList();
+        //    Like like = likes.FirstOrDefault(m => m.User == User.Identity.Name);
+
+
+        //    if (review == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    if (ModelState.IsValid && Liked(id) && like != null)
+        //    {
+        //        review.LikesCount -= 1;
+
+        //        _context.Update(review);
+        //        _context.Remove(like);
+        //        await _context.SaveChangesAsync();
+        //    }
+
+        //    return RedirectToAction(nameof(Index));
+        //}
 
         //GET 
         private bool Liked(int id)
