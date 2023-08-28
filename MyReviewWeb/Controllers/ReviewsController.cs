@@ -243,12 +243,12 @@ namespace MyReviewWeb.Controllers
                     await _context.SaveChangesAsync();
                 }
             }
-            
+
             return RedirectToAction(nameof(Index));
         }
 
 
-        //// POST: Reviews/Index/Like
+        //// POST: Reviews/Index/UnLike
         //[Authorize]
         //[HttpPost]
         //[ValidateAntiForgeryToken]

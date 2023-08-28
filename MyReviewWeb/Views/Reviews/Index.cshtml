@@ -45,13 +45,14 @@
             </td>
             <td>
                     <form asp-action="Like" asp-route-id="@item.Id">
-                        <button type="submit" class="btn btn-outline-danger btn-sm bt"><i class="bi bi-heart"> </i></button>
+                        <button type="submit" class="btn text-danger btn-sm "><i class="bi bi-heart-fill"> </i></button>
 
                     </form>
                     @* <p>_________________________________________</p>
                     <form asp-action="UnLike" asp-route-id="@item.Id">
                         <button type="submit" class="btn btn-outline-danger btn-sm"><i class="bi bi-heart-fill"></i></button>
                     </form> *@
+                    
                    
             </td>
             <td>
@@ -69,12 +70,22 @@
                 @Html.DisplayFor(modelItem => item.CreateDateTime)
             </td>
             <td>
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> 
+                
                     @if (item.User == User.Identity.Name)
                     {
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                       
+                        <div class="btn-group" role="group" >
+                            <a class="btn btn-outline-primary" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                            <a class="btn btn-outline-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                            <a class="btn btn-outline-primary" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                           
+                        </div>
                     }
+                    else
+                    {
+                        <a class="btn btn-outline-primary" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    }
+                    
             </td>
         </tr>
 }
